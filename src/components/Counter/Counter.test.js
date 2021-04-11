@@ -89,3 +89,56 @@ test('changing input value then clicking on add button works correctly', () => {
     fireEvent.click(addButton)
     expect(counterEl.textContent).toBe('5')
 })
+
+test('changing input value then clicking on subtract button works correctly', () => {
+    const { getByTestId } = render(<Counter />)
+    const subtractButton = getByTestId('subtract-btn')
+    const counterEl = getByTestId('counter')
+    const inputEl = getByTestId('input')
+
+    fireEvent.change(inputEl, {
+        target: {
+            value: 5
+        }
+    })
+
+    fireEvent.click(subtractButton)
+    expect(counterEl.textContent).toBe('-5')
+})
+
+test('counter contains correct className', () => {
+    const { getByTestId } = render(<Counter />)
+    const counterEl = getByTestId('counter')
+    const inputEl = getByTestId('input')
+    const addButton = getByTestId('add-btn')
+    const subtractButton = getByTestId('subtract-btn')
+
+
+    expect(counterEl.className).toBe('')
+
+    fireEvent.change(inputEl, {
+        target: {
+            value: '50'
+        }
+    })
+
+    fireEvent.click(addButton)
+    expect(counterEl.className).toBe('')
+    fireEvent.click(addButton)
+    expect(counterEl.className).toBe('green')
+    fireEvent.click(addButton)
+    expect(counterEl.className).toBe('green')
+
+    fireEvent.click(subtractButton)
+    fireEvent.click(subtractButton)
+    expect(counterEl.className).toBe('')
+    fireEvent.click(subtractButton)
+    fireEvent.click(subtractButton)
+    fireEvent.click(subtractButton)
+    fireEvent.click(subtractButton)
+    expect(counterEl.className).toBe('red')
+
+
+
+
+})
