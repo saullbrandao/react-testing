@@ -3,43 +3,44 @@ import Counter from './Counter'
 import { fireEvent, render } from '@testing-library/react'
 import "@testing-library/jest-dom/extend-expect"
 
+let getByTestId
+
+beforeEach(() => {
+    const component = render(<Counter />)
+    getByTestId = component.getByTestId
+})
+
 test('header renders with correct text', () => {
-    const { getByTestId } = render(<Counter />)
     const headerEl = getByTestId('header')
 
     expect(headerEl.textContent).toBe("My Counter")
 })
 
 test('counter initially start with text of 0', () => {
-    const { getByTestId } = render(<Counter />)
     const counterEl = getByTestId('counter')
 
     expect(counterEl.textContent).toBe('0')
 })
 
 test('input contains initial value of 1', () => {
-    const { getByTestId } = render(<Counter />)
     const inputEl = getByTestId('input')
 
     expect(inputEl.value).toBe('1')
 })
 
 test('add button renders with +', () => {
-    const { getByTestId } = render(<Counter />)
     const addButton = getByTestId('add-btn')
 
     expect(addButton.textContent).toBe('+')
 })
 
 test('subtract button renders with -', () => {
-    const { getByTestId } = render(<Counter />)
     const subtractButton = getByTestId('subtract-btn')
 
     expect(subtractButton.textContent).toBe('-')
 })
 
 test('change value of input works correctly', () => {
-    const { getByTestId } = render(<Counter />)
     const inputEl = getByTestId('input')
 
     expect(inputEl.value).toBe('1')
@@ -55,7 +56,6 @@ test('change value of input works correctly', () => {
 })
 
 test('click on plus button adds 1 to counter', () => {
-    const { getByTestId } = render(<Counter />)
     const addButton = getByTestId('add-btn')
     const counterEl = getByTestId('counter')
 
@@ -65,7 +65,6 @@ test('click on plus button adds 1 to counter', () => {
 })
 
 test('click on subtract button subtracts 1 from the counter', () => {
-    const { getByTestId } = render(<Counter />)
     const substractButton = getByTestId('subtract-btn')
     const counterEl = getByTestId('counter')
 
@@ -75,7 +74,6 @@ test('click on subtract button subtracts 1 from the counter', () => {
 })
 
 test('changing input value then clicking on add button works correctly', () => {
-    const { getByTestId } = render(<Counter />)
     const addButton = getByTestId('add-btn')
     const counterEl = getByTestId('counter')
     const inputEl = getByTestId('input')
@@ -91,7 +89,6 @@ test('changing input value then clicking on add button works correctly', () => {
 })
 
 test('changing input value then clicking on subtract button works correctly', () => {
-    const { getByTestId } = render(<Counter />)
     const subtractButton = getByTestId('subtract-btn')
     const counterEl = getByTestId('counter')
     const inputEl = getByTestId('input')
@@ -107,7 +104,6 @@ test('changing input value then clicking on subtract button works correctly', ()
 })
 
 test('counter contains correct className', () => {
-    const { getByTestId } = render(<Counter />)
     const counterEl = getByTestId('counter')
     const inputEl = getByTestId('input')
     const addButton = getByTestId('add-btn')
@@ -123,22 +119,26 @@ test('counter contains correct className', () => {
     })
 
     fireEvent.click(addButton)
+
     expect(counterEl.className).toBe('')
+
     fireEvent.click(addButton)
+
     expect(counterEl.className).toBe('green')
+
     fireEvent.click(addButton)
+
     expect(counterEl.className).toBe('green')
 
     fireEvent.click(subtractButton)
     fireEvent.click(subtractButton)
+
     expect(counterEl.className).toBe('')
+
     fireEvent.click(subtractButton)
     fireEvent.click(subtractButton)
     fireEvent.click(subtractButton)
     fireEvent.click(subtractButton)
+
     expect(counterEl.className).toBe('red')
-
-
-
-
 })
